@@ -254,10 +254,6 @@ class CCDirector : public CCObject
      */
     CCTouchDispatcher* getTouchDispatcher();
 
-    /** CCKeypadDispatcher associated with this director
-     @since v2.0
-     */
-    CCKeypadDispatcher* getKeypadDispatcher();
 
     /** CCAccelerometer associated with this director
      @since v2.0

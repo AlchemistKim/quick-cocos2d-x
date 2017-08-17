@@ -32,7 +32,6 @@ THE SOFTWARE.
 #include "CCSAXParser.h"
 #include "CCDictionary.h"
 #include "support/zip_support/unzip.h"
-#include "apptools/HelperFunc.h"
 
 NS_CC_BEGIN
 
@@ -319,19 +318,9 @@ bool CCFileUtilsMac::isAbsolutePath(const std::string& strPath)
 CCDictionary* CCFileUtilsMac::createCCDictionaryWithContentsOfFile(const std::string& filename)
 {
     std::string fullPath = CCFileUtils::sharedFileUtils()->fullPathForFilename(filename.c_str());
-    //NSString* pPath = [NSString stringWithUTF8String:fullPath.c_str()];
-    //NSDictionary* pDict = [NSDictionary dictionaryWithContentsOfFile:pPath];
-	unsigned long fileSize = 0;
-	unsigned char* pFileData = CZHelperFunc::getFileData(fullPath.c_str(), "rb", &fileSize);
-    NSData *data = [[[NSData alloc] initWithBytes:pFileData length:fileSize] autorelease];
-	delete []pFileData;
-    NSPropertyListFormat format;
-    NSString *error;
-    NSMutableDictionary *pDict = (NSMutableDictionary *)[NSPropertyListSerialization propertyListFromData:data
-                                                mutabilityOption:NSPropertyListMutableContainersAndLeaves
-                                                format:&format
-                                                errorDescription:&error];
-    
+    NSString* pPath = [NSString stringWithUTF8String:fullPath.c_str()];
+    NSDictionary* pDict = [NSDictionary dictionaryWithContentsOfFile:pPath];
+
     CCDictionary* pRet = new CCDictionary();
     for (id key in [pDict allKeys]) {
         id value = [pDict objectForKey:key];

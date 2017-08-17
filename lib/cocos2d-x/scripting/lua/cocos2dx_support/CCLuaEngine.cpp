@@ -27,7 +27,6 @@
 #include "cocoa/CCArray.h"
 #include "cocoa/CCScriptEventDispatcher.h"
 #include "CCScheduler.h"
-#include "cocos-ext.h"
 
 NS_CC_BEGIN
 
@@ -154,22 +153,6 @@ int CCLuaEngine::executeNodeEnterFrameEvent(CCNode* pNode, float dt)
         if (p->event != NODE_ENTER_FRAME_EVENT || p->removed) continue;
         m_stack->pushFloat(dt);
         m_stack->executeFunctionByHandler(p->listener, 1);
-        m_stack->clean();
-    }
-    return 0;
-}
-
-int CCLuaEngine::executeMenuItemEvent(CCMenuItem* pMenuItem)
-{
-    CCArray *listeners = pMenuItem->getAllScriptEventListeners();
-    CCScriptHandlePair *p;
-    for (int i = listeners->count() - 1; i >= 0; --i)
-    {
-        p = dynamic_cast<CCScriptHandlePair*>(listeners->objectAtIndex(i));
-        if (p->event != MENU_ITEM_CLICKED_EVENT || p->removed) continue;
-        m_stack->pushInt(pMenuItem->getTag());
-        m_stack->pushCCObject(pMenuItem, "CCMenuItem");
-        m_stack->executeFunctionByHandler(p->listener, 2);
         m_stack->clean();
     }
     return 0;
@@ -396,41 +379,6 @@ int CCLuaEngine::executeNodeTouchesEvent(CCNode* pNode, int eventType, CCSet *pT
     return 1;
 }
 
-int CCLuaEngine::executeLayerKeypadEvent(CCLayer* pLayer, int eventType)
-{
-    m_stack->clean();
-    CCLuaValueDict event;
-    event["name"] = CCLuaValue::stringValue("clicked");
-    switch (eventType)
-    {
-        case kTypeBackClicked:
-            event["key"] = CCLuaValue::stringValue("back");
-            break;
-
-        case kTypeMenuClicked:
-            event["key"] = CCLuaValue::stringValue("menu");
-            break;
-
-        default:
-            return 0;
-    }
-
-    m_stack->pushCCLuaValueDict(event);
-
-    CCArray *listeners = pLayer->getAllScriptEventListeners();
-    CCScriptHandlePair *p;
-    for (int i = listeners->count() - 1; i >= 0; --i)
-    {
-        p = dynamic_cast<CCScriptHandlePair*>(listeners->objectAtIndex(i));
-        if (p->event != KEYPAD_EVENT || p->removed) continue;
-        m_stack->copyValue(1);
-        m_stack->executeFunctionByHandler(p->listener, 1);
-        m_stack->settop(1);
-    }
-    m_stack->clean();
-    return 0;
-}
-
 int CCLuaEngine::executeAccelerometerEvent(CCLayer* pLayer, CCAcceleration* pAccelerationValue)
 {
     m_stack->clean();
@@ -479,61 +427,6 @@ int CCLuaEngine::reallocateScriptHandler(int nHandler)
 {
     int nRet = m_stack->reallocateScriptHandler(nHandler);
     m_stack->clean();
-    return nRet;
-}
-
-int CCLuaEngine::executeTableViewEvent(int nEventType,cocos2d::extension::CCTableView* pTableView,void* pValue, CCArray* pResultArray)
-{
-    if (NULL == pTableView)
-        return 0;
-
-    int nHanlder = pTableView->getScriptHandler(nEventType);
-    if (0 == nHanlder)
-        return 0;
-
-    int nRet = 0;
-    switch (nEventType)
-    {
-        case cocos2d::extension::CCTableView::kTableViewScroll:
-        case cocos2d::extension::CCTableView::kTableViewZoom:
-        {
-            m_stack->pushCCObject(pTableView, "CCTableView");
-            nRet = m_stack->executeFunctionByHandler(nHanlder, 1);
-        }
-            break;
-        case cocos2d::extension::CCTableView::kTableCellTouched:
-        case cocos2d::extension::CCTableView::kTableCellHighLight:
-        case cocos2d::extension::CCTableView::kTableCellUnhighLight:
-        case cocos2d::extension::CCTableView::kTableCellWillRecycle:
-        {
-            m_stack->pushCCObject(pTableView, "CCTableView");
-            m_stack->pushCCObject(static_cast<cocos2d::extension::CCTableViewCell*>(pValue), "CCTableViewCell");
-            nRet = m_stack->executeFunctionByHandler(nHanlder, 2);
-        }
-            break;
-        case cocos2d::extension::CCTableView::kTableCellSizeForIndex:
-        {
-            m_stack->pushCCObject(pTableView, "CCTableView");
-            m_stack->pushInt(*((int*)pValue));
-            nRet = m_stack->executeFunctionReturnArray(nHanlder, 2, 2, pResultArray);
-        }
-            break;
-        case cocos2d::extension::CCTableView::kTableCellSizeAtIndex:
-        {
-            m_stack->pushCCObject(pTableView, "CCTableView");
-            m_stack->pushInt(*((int*)pValue));
-            nRet = m_stack->executeFunctionReturnArray(nHanlder, 2, 1, pResultArray);
-        }
-            break;
-        case cocos2d::extension::CCTableView::kNumberOfCellsInTableView:
-        {
-            m_stack->pushCCObject(pTableView, "CCTableView");
-            nRet = m_stack->executeFunctionReturnArray(nHanlder, 1, 1, pResultArray);
-        }
-            break;
-        default:
-            break;
-    }
     return nRet;
 }
 

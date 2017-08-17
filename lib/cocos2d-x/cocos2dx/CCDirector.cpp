@@ -30,7 +30,6 @@ THE SOFTWARE.
 // cocos2d includes
 #include "CCDirector.h"
 #include "ccFPSImages.h"
-#include "draw_nodes/CCDrawingPrimitives.h"
 #include "CCConfiguration.h"
 #include "cocoa/CCNS.h"
 #include "layers_scenes_transitions_nodes/CCScene.h"
@@ -40,7 +39,6 @@ THE SOFTWARE.
 #include "touch_dispatcher/CCTouchDispatcher.h"
 #include "support/CCPointExtension.h"
 #include "support/CCNotificationCenter.h"
-#include "layers_scenes_transitions_nodes/CCTransition.h"
 #include "textures/CCTextureCache.h"
 #include "sprite_nodes/CCSpriteFrameCache.h"
 #include "cocoa/CCAutoreleasePool.h"
@@ -51,11 +49,9 @@ THE SOFTWARE.
 #include "label_nodes/CCLabelAtlas.h"
 #include "actions/CCActionManager.h"
 #include "CCConfiguration.h"
-#include "keypad_dispatcher/CCKeypadDispatcher.h"
 #include "CCAccelerometer.h"
 #include "sprite_nodes/CCAnimationCache.h"
 #include "touch_dispatcher/CCTouch.h"
-#include "support/user_default/CCUserDefault.h"
 #include "shaders/ccGLStateCache.h"
 #include "shaders/CCShaderCache.h"
 #include "kazmath/kazmath.h"
@@ -153,9 +149,6 @@ bool CCDirector::init(void)
     m_pTouchDispatcher = new CCTouchDispatcher();
     m_pTouchDispatcher->init();
 
-    // KeypadDispatcher
-    m_pKeypadDispatcher = new CCKeypadDispatcher();
-
     // Accelerometer
     m_pAccelerometer = new CCAccelerometer();
 
@@ -179,7 +172,6 @@ CCDirector::~CCDirector(void)
     CC_SAFE_RELEASE(m_pScheduler);
     CC_SAFE_RELEASE(m_pActionManager);
     CC_SAFE_RELEASE(m_pTouchDispatcher);
-    CC_SAFE_RELEASE(m_pKeypadDispatcher);
     CC_SAFE_DELETE(m_pAccelerometer);
 
     // pop the autorelease pool
@@ -730,7 +722,6 @@ void CCDirector::purgeDirector()
     CCLabelBMFont::purgeCachedData();
 
     // purge all managed caches
-    ccDrawFree();
     CCAnimationCache::purgeSharedAnimationCache();
     CCSpriteFrameCache::purgeSharedSpriteFrameCache();
     CCTextureCache::purgeSharedTextureCache();
@@ -739,7 +730,6 @@ void CCDirector::purgeDirector()
     CCConfiguration::purgeConfiguration();
 
     // cocos2d-x specific data structures
-    CCUserDefault::purgeSharedUserDefault();
     CCNotificationCenter::purgeNotificationCenter();
 
     ccGLInvalidateStateCache();
@@ -756,8 +746,8 @@ void CCDirector::purgeDirector()
 
 void CCDirector::setNextScene(void)
 {
-    bool runningIsTransition = dynamic_cast<CCTransitionScene*>(m_pRunningScene) != NULL;
-    bool newIsTransition = dynamic_cast<CCTransitionScene*>(m_pNextScene) != NULL;
+    bool runningIsTransition = m_pRunningScene != NULL;
+    bool newIsTransition = m_pNextScene != NULL;
 
     // If it is not a transition, call onExit/cleanup
      if (! newIsTransition)
@@ -1025,18 +1015,6 @@ void CCDirector::setTouchDispatcher(CCTouchDispatcher* pTouchDispatcher)
 CCTouchDispatcher* CCDirector::getTouchDispatcher()
 {
     return m_pTouchDispatcher;
-}
-
-void CCDirector::setKeypadDispatcher(CCKeypadDispatcher* pKeypadDispatcher)
-{
-    CC_SAFE_RETAIN(pKeypadDispatcher);
-    CC_SAFE_RELEASE(m_pKeypadDispatcher);
-    m_pKeypadDispatcher = pKeypadDispatcher;
-}
-
-CCKeypadDispatcher* CCDirector::getKeypadDispatcher()
-{
-    return m_pKeypadDispatcher;
 }
 
 void CCDirector::setAccelerometer(CCAccelerometer* pAccelerometer)

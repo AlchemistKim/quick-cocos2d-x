@@ -40,11 +40,6 @@ extern "C" {
 
 NS_CC_BEGIN
 
-namespace extension {
-    class CCTableViewCell;
-    class CCTableView;
-}
-
 /** Lua support for cocos2d-x
  *  @js NA
  *  @lua NA
@@ -115,18 +110,14 @@ public:
 
     virtual int executeNodeEvent(CCNode* pNode, int nAction);
     virtual int executeNodeEnterFrameEvent(CCNode* pNode, float dt);
-    virtual int executeMenuItemEvent(CCMenuItem* pMenuItem);
     virtual int executeNotificationEvent(CCNotificationCenter* pNotificationCenter, const char* pszName, CCObject *obj = NULL);
     virtual int executeCallFuncActionEvent(CCCallFunc* pAction, CCObject* pTarget = NULL);
     virtual int executeSchedule(int nHandler, float dt, CCNode* pNode = NULL);
     virtual int executeNodeTouchesEvent(CCNode* pNode, int eventType, CCSet *pTouches, int phase);
     virtual int executeNodeTouchEvent(CCNode* pNode, int eventType, CCTouch *pTouch, int phase);
-    virtual int executeLayerKeypadEvent(CCLayer* pLayer, int eventType);
     /** execute a accelerometer event */
     virtual int executeAccelerometerEvent(CCLayer* pLayer, CCAcceleration* pAccelerationValue);
     virtual int executeEvent(int nHandler, const char* pEventName, CCObject* pEventSource = NULL, const char* pEventSourceClassName = NULL);
-
-    int executeTableViewEvent(int nEventType,cocos2d::extension::CCTableView* pTableView,void* pValue = NULL, CCArray* pResultArray = NULL);
 
     virtual int executeEventWithArgs(int nHandler, CCArray* pArgs);
 

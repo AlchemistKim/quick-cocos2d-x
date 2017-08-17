@@ -37,7 +37,6 @@ THE SOFTWARE.
 #include "CCGL.h"
 #include "support/CCNotificationCenter.h"
 #include "CCEventType.h"
-#include "effects/CCGrid.h"
 // extern
 #include "kazmath/GL/matrix.h"
 #include "CCEGLView.h"
@@ -531,12 +530,6 @@ void CCRenderTexture::visit()
 	
 	kmGLPushMatrix();
 	
-    if (m_pGrid && m_pGrid->isActive())
-    {
-        m_pGrid->beforeDraw();
-        transformAncestors();
-    }
-    
     transform();
     m_pSprite->visit();
     draw();
@@ -544,11 +537,6 @@ void CCRenderTexture::visit()
     // reset for next frame
     m_uOrderOfArrival = 0;
 
-    if (m_pGrid && m_pGrid->isActive())
-    {
-        m_pGrid->afterDraw(this);
-    }
-	
 	kmGLPopMatrix();
 }
 

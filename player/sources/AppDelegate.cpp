@@ -4,15 +4,11 @@
 #include "SimpleAudioEngine.h"
 #include "support/CCNotificationCenter.h"
 #include "CCLuaEngine.h"
-#include "cocos2dx_extra.h"
-#include "network/CCHTTPRequest.h"
-#include "native/CCNative.h"
 #include <string>
 
 using namespace std;
 using namespace cocos2d;
 using namespace CocosDenshion;
-USING_NS_CC_EXTRA;
 
 AppDelegate::AppDelegate()
 {
@@ -99,22 +95,6 @@ void AppDelegate::trackEvent(const char *eventName)
 #else
 	const char *platform = "UNKNOWN";
 #endif
-
-    CCHTTPRequest *request = CCHTTPRequest::createWithUrl(NULL,
-                                                          "http://www.google-analytics.com/collect",
-                                                          kCCHTTPRequestMethodPOST);
-    request->addPOSTValue("v", "1");
-    request->addPOSTValue("tid", "UA-54146057-1");
-    request->addPOSTValue("cid", CCNative::getOpenUDID().c_str());
-    request->addPOSTValue("t", "event");
-    
-    request->addPOSTValue("an", "player");
-    request->addPOSTValue("av", cocos2dVersion());
-
-	request->addPOSTValue("ec", platform);
-    request->addPOSTValue("ea", eventName);
-    
-    request->start();
 }
 
 void AppDelegate::trackLaunchEvent()
@@ -127,14 +107,6 @@ void AppDelegate::trackLaunchEvent()
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
     trackUrl = "http://c.kp747.com/k.js?id=c1e060d0a0e0e207";
 #endif
-    
-    if (trackUrl)
-    {
-        CCHTTPRequest *request = CCHTTPRequest::createWithUrl(NULL,
-                                                              trackUrl,
-                                                              kCCHTTPRequestMethodGET);
-        request->start();
-    }
 }
 // ----------------------------------------
 

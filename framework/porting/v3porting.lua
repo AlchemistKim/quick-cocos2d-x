@@ -23,7 +23,7 @@ end
 
 function cc.rectContainsPoint( rect, point )
     local ret = false
-    
+
     if (point.x >= rect.x) and (point.x <= rect.x + rect.width) and
        (point.y >= rect.y) and (point.y <= rect.y + rect.height) then
         ret = true
@@ -61,14 +61,14 @@ function cc.Node:setContentSize(_w, _h)
 	end
 end
 
-local setScale9Size = CCScale9Sprite.setContentSize
-function CCScale9Sprite:setContentSize(_w, _h)
-	if _h then
-		setScale9Size(self, CCSize(_w, _h))
-	else
-		setScale9Size(self, _w)
-	end
-end
+-- local setScale9Size = CCScale9Sprite.setContentSize
+-- function CCScale9Sprite:setContentSize(_w, _h)
+-- 	if _h then
+-- 		setScale9Size(self, CCSize(_w, _h))
+-- 	else
+-- 		setScale9Size(self, _w)
+-- 	end
+-- end
 
 local rect2t = function(_r)
 	_r.x = _r.origin.x
@@ -96,21 +96,10 @@ end
 cc.EDITBOX_INPUT_FLAG_PASSWORD = kEditBoxInputFlagPassword
 
 
-CCEditBox.registerScriptEditBoxHandler = CCEditBox.addEditBoxEventListener
+-- CCEditBox.registerScriptEditBoxHandler = CCEditBox.addEditBoxEventListener
 
 cc.Node.removeFromParent 		= cc.Node.removeFromParentAndCleanup
 
 
 cc.SpriteFrameCache.getInstance = cc.SpriteFrameCache.sharedSpriteFrameCache
 cc.SpriteFrameCache.addSpriteFrames = cc.SpriteFrameCache.addSpriteFramesWithFile
-
-if CCArmatureDataManager then
-	ccs = {}
-	ccs.ArmatureDataManager 		= CCArmatureDataManager
-	ccs.ArmatureDataManager.getInstance 	= CCArmatureDataManager.sharedArmatureDataManager
-	ccs.Armature 					= CCArmature
-end
-
-
-
-

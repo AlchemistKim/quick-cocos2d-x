@@ -29,7 +29,6 @@
 #include "support/CCPointExtension.h"
 #include "support/TransformUtils.h"
 #include "CCCamera.h"
-#include "effects/CCGrid.h"
 #include "CCDirector.h"
 #include "CCScheduler.h"
 #include "touch_dispatcher/CCTouch.h"
@@ -72,7 +71,6 @@ CCNode::CCNode(void)
 , m_pCamera(NULL)
 // children (lazy allocs)
 // lazy alloc
-, m_pGrid(NULL)
 , m_nZOrder(0)
 , m_pChildren(NULL)
 , m_pParent(NULL)
@@ -125,7 +123,6 @@ CCNode::~CCNode(void)
     // attributes
     CC_SAFE_RELEASE(m_pCamera);
 
-    CC_SAFE_RELEASE(m_pGrid);
     CC_SAFE_RELEASE(m_pShaderProgram);
     CC_SAFE_RELEASE(m_pUserObject);
 
@@ -363,22 +360,6 @@ CCCamera* CCNode::getCamera()
 
     return m_pCamera;
 }
-
-
-/// grid getter
-CCGridBase* CCNode::getGrid()
-{
-    return m_pGrid;
-}
-
-/// grid setter
-void CCNode::setGrid(CCGridBase* pGrid)
-{
-    CC_SAFE_RETAIN(pGrid);
-    CC_SAFE_RELEASE(m_pGrid);
-    m_pGrid = pGrid;
-}
-
 
 /// isVisible getter
 bool CCNode::isVisible()
@@ -897,11 +878,6 @@ void CCNode::visit()
     }
     kmGLPushMatrix();
 
-    if (m_pGrid && m_pGrid->isActive())
-    {
-        m_pGrid->beforeDraw();
-    }
-
     this->transform();
 
     CCNode* pNode = NULL;
@@ -945,11 +921,6 @@ void CCNode::visit()
     // reset for next frame
     m_uOrderOfArrival = 0;
 
-    if (m_pGrid && m_pGrid->isActive())
-    {
-        m_pGrid->afterDraw(this);
-    }
-
     kmGLPopMatrix();
 }
 
@@ -977,7 +948,7 @@ void CCNode::transform()
 
 
     // XXX: Expensive calls. Camera should be integrated into the cached affine matrix
-    if ( m_pCamera != NULL && !(m_pGrid != NULL && m_pGrid->isActive()) )
+    if ( m_pCamera != NULL )
     {
         bool translate = (m_obAnchorPointInPoints.x != 0.0f || m_obAnchorPointInPoints.y != 0.0f);
 

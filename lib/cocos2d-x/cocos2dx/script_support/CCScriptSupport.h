@@ -160,11 +160,6 @@ public:
      */
     virtual int executeNodeEnterFrameEvent(CCNode* pNode, float dt) = 0;
 
-    /**
-     CCMenuItem Event
-     */
-    virtual int executeMenuItemEvent(CCMenuItem* pMenuItem) = 0;
-
     /** Execute a notification event function */
     virtual int executeNotificationEvent(CCNotificationCenter* pNotificationCenter, const char* pszName, CCObject *obj = NULL) = 0;
 
@@ -176,9 +171,6 @@ public:
     /** functions for executing touch event */
     virtual int executeNodeTouchesEvent(CCNode* pNode, int eventType, CCSet *pTouches, int phase) = 0;
     virtual int executeNodeTouchEvent(CCNode* pNode, int eventType, CCTouch *pTouch, int phase) = 0;
-
-    /** functions for keypad event */
-    virtual int executeLayerKeypadEvent(CCLayer* pLayer, int eventType) = 0;
 
     /** execute a accelerometer event */
     virtual int executeAccelerometerEvent(CCLayer* pLayer, CCAcceleration* pAccelerationValue) = 0;

@@ -40,17 +40,10 @@ THE SOFTWARE.
 // actions
 #include "actions/CCAction.h"
 #include "actions/CCActionInterval.h"
-#include "actions/CCActionCamera.h"
 #include "actions/CCActionManager.h"
 #include "actions/CCActionEase.h"
-#include "actions/CCActionPageTurn3D.h"
-#include "actions/CCActionGrid.h"
 #include "actions/CCActionProgressTimer.h"
-#include "actions/CCActionGrid3D.h"
-#include "actions/CCActionTiledGrid.h"
 #include "actions/CCActionInstant.h"
-#include "actions/CCActionTween.h"
-#include "actions/CCActionCatmullRom.h"
 
 // base_nodes
 #include "base_nodes/CCNode.h"
@@ -73,15 +66,6 @@ THE SOFTWARE.
 #include "cocoa/CCZone.h"
 #include "cocoa/CCPointArray.h"
 
-// draw nodes
-#include "draw_nodes/CCDrawingPrimitives.h"
-#include "draw_nodes/CCDrawNode.h"
-#include "draw_nodes/CCShapeNode.h"
-
-// effects
-#include "effects/CCGrabber.h"
-#include "effects/CCGrid.h"
-
 // include
 #include "CCEventType.h"
 #include "CCProtocols.h"
@@ -93,10 +77,6 @@ THE SOFTWARE.
 #include "kazmath/include/kazmath/kazmath.h"
 #include "kazmath/include/kazmath/GL/matrix.h"
 
-// keypad_dispatcher
-#include "keypad_dispatcher/CCKeypadDelegate.h"
-#include "keypad_dispatcher/CCKeypadDispatcher.h"
-
 // label_nodes
 #include "label_nodes/CCLabelAtlas.h"
 #include "label_nodes/CCLabelTTF.h"
@@ -105,25 +85,16 @@ THE SOFTWARE.
 // layers_scenes_transitions_nodes
 #include "layers_scenes_transitions_nodes/CCLayer.h"
 #include "layers_scenes_transitions_nodes/CCScene.h"
-#include "layers_scenes_transitions_nodes/CCTransition.h"
-#include "layers_scenes_transitions_nodes/CCTransitionPageTurn.h"
-#include "layers_scenes_transitions_nodes/CCTransitionProgress.h"
-
-// menu_nodes
-#include "menu_nodes/CCMenu.h"
-#include "menu_nodes/CCMenuItem.h"
 
 // misc_nodes
 #include "misc_nodes/CCClippingNode.h"
 #include "misc_nodes/CCClippingRegionNode.h"
-#include "misc_nodes/CCMotionStreak.h"
 #include "misc_nodes/CCProgressTimer.h"
 #include "misc_nodes/CCRenderTexture.h"
 
 // particle_nodes
 #include "particle_nodes/CCParticleBatchNode.h"
 #include "particle_nodes/CCParticleSystem.h"
-#include "particle_nodes/CCParticleExamples.h"
 #include "particle_nodes/CCParticleSystemQuad.h"
 
 // platform
@@ -264,28 +235,14 @@ THE SOFTWARE.
 #include "support/CCNotificationCenter.h"
 #include "support/CCPointExtension.h"
 #include "support/CCProfiling.h"
-#include "support/user_default/CCUserDefault.h"
 #include "support/CCVertex.h"
 #include "support/tinyxml2/tinyxml2.h"
-
-// text_input_node
-#include "text_input_node/CCIMEDelegate.h"
-#include "text_input_node/CCIMEDispatcher.h"
-#include "text_input_node/CCTextFieldTTF.h"
 
 // textures
 #include "textures/CCTexture2D.h"
 #include "textures/CCTextureAtlas.h"
 #include "textures/CCTextureCache.h"
 #include "textures/CCTexturePVR.h"
-
-// tilemap_parallax_nodes
-#include "tilemap_parallax_nodes/CCParallaxNode.h"
-#include "tilemap_parallax_nodes/CCTMXLayer.h"
-#include "tilemap_parallax_nodes/CCTMXObjectGroup.h"
-#include "tilemap_parallax_nodes/CCTMXTiledMap.h"
-#include "tilemap_parallax_nodes/CCTMXXMLParser.h"
-#include "tilemap_parallax_nodes/CCTileMapAtlas.h"
 
 // touch_dispatcher
 #include "touch_dispatcher/CCTouch.h"

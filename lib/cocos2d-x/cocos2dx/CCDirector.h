@@ -341,11 +341,6 @@ public:
      */
     CC_PROPERTY(CCTouchDispatcher*, m_pTouchDispatcher, TouchDispatcher);
 
-    /** CCKeypadDispatcher associated with this director
-     @since v2.0
-     */
-    CC_PROPERTY(CCKeypadDispatcher*, m_pKeypadDispatcher, KeypadDispatcher);
-
     /** CCAccelerometer associated with this director
      @since v2.0
      @js NA
